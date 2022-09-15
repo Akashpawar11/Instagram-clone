@@ -1,46 +1,78 @@
 <template>
     <div>
         <div class="container-fluid">
-            {{this.data}}
+            <router-link v-if="dataFetched" to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
+            <h4>Posts</h4>
+            <h4 v-if="err">
+                {{this.errMsg}}
+            </h4>
+
+            <h4 v-if="Error">
+                {{this.errorMessage}}
+            </h4>
+            <div class="container-fluid p-0 m-0" v-if="dataFetched">
+                <div class="row">
+                    <img :src="this.data.thumbnail_src" alt="">
+                    <h6>{{this.data.owner.username}}</h6>
+                    <div>
+                        <img :src="this.data.display_url" alt="">
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'PublicPosts',
     data() {
         return {
-            data:[]
+            dataFetched: '',
+            err: '',
+            errMsg: '',
+            data: [],
+            networkError: '',
+            Error: ''
         }
     },
     async mounted() {
         try {
             let userID = (this.$route.params.id).toString()
             console.log(userID)
-            const result = await axios.get(
+            let result = await axios.get(
                 'https://instagram47.p.rapidapi.com/public_user_posts',
                 {
                     headers: {
-                        'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
+                        'X-RapidAPI-Key': 'd4903c298emshd5d047f07ca52bdp13d08ejsn0b2611e63d82',
                         'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
                     },
-                    params: {userid: userID}
+                    params: { userid: userID }
                 });
             console.log(result)
-            this.data = result
-            // if (result.data.statusCode == 203 || result.data.statusCode == 202) {
-            //     this.dataFetched = false
-            //     errorMessage = true
-            // } else {
-            //     this.dataFetched = true
-            //     this.searchData = result.data.body.users
-            // }
+            if (result.data.statusCode == 203 || result.data.statusCode == 202) {
+                this.dataFetched = false
+                this.err = true
+                this.errMsg = ("Error Occured - error" + result.data.statusCode)
+            } else if (result.message == "Network Error") {
+                this.networkError = true
+            } else if (result.data.statusCode == 102) {
+                this.err = true
+                this.errMsg = 'Error 102 - Cannot Process request'
+            } else {
+                this.dataFetched = true
+                this.data = result.data.body.edges[0].node
+            }
 
         } catch (error) {               //Catch block to show error/s
             console.log(error)
-            this.errorMsg = error.message
+            this.Error = true
+            this.errorMessage = error.message
+            console.log(this.data)
         }
+
     }
 }
 </script>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomePage from '../components/Home.vue'
 // import SearchResults from '../components/SearchResults.vue'
 import PublicPosts from '../components/PublicPosts.vue'
+import errorPage from '../components/errorPage.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     name: 'PublicPosts',
     component: PublicPosts
   },
+  {
+    path: '*',
+    name: 'errorPage',
+    component: errorPage
+  }
 ]
 
 const router = new VueRouter({

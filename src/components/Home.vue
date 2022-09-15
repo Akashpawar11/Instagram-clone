@@ -11,8 +11,23 @@
                     </button>
                 </div>
             </div>
+
+            <!-- loader starts -->
+            <div>
+                <div class="lds-roller" v-if="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
             <!-- <Searched Results if api fetched successfully/> -->
-            <div class="container-fluid home-screen p-0 m-0">
+            <div v-if="!loading" class="container-fluid home-screen p-0 m-0">
                 <!-- navbar after searched -->
                 <div v-if="dataFetched" class="row p-0 m-0">
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -48,7 +63,7 @@
                     <div v-for="user in searchData" :key="user.id" class="user-thumbnail row">
                         <div class="user row d-flex">
                             <router-link :to=" `/public-posts/`+ user.user.pk ">
-                                <div><img class="imageSmall" :src="user.user.profile_pic_url" alt="user profile picture">
+                                <div><img class="imageSmall" :src="user.user.profile_pic_url" alt="profile picture">
                                 </div>
                                 <div class="user-details d-flex flex-column">
                                     <div>
@@ -82,15 +97,17 @@ export default {
         return {
             searchData: [],
             username: "",
-            dataFetched: undefined,
+            dataFetched: '',
             Error: '',
             errorMessage: '',
+            loading: false,
             err: '',     // used for 203,202 error,
             errMsg: ''
         };
     },
     methods: {
         async search() {
+            this.loading = true
             // API fetching in try block
             try {
                 let username1 = this.username
@@ -98,27 +115,39 @@ export default {
                     'https://instagram47.p.rapidapi.com/search',
                     {
                         headers: {
-                            'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
+                            'X-RapidAPI-Key': 'd4903c298emshd5d047f07ca52bdp13d08ejsn0b2611e63d82',
                             'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
                         },
                         params: { search: username1 },
                     });
                 console.log(result)
                 if (result.data.statusCode == 203 || result.data.statusCode == 202) {
+                    this.loading = false
                     this.dataFetched = false
                     this.err = true
-                    this.errMsg = 'Error Occured'
-                } else if (result.message = "Network Error") {
+                    this.errMsg = ("Error Occured - error" + result.data.statusCode)
+                } else if (result.message == "Network Error") {
+                    this.loading = false
                     this.networkError = true
+                } else if (result.data.statusCode == 102) {
+                    this.err = true
+                    this.errMsg = 'Error 102 - Cannot Process request'
+                    this.loading = false
                 } else {
                     this.dataFetched = true
                     this.searchData = result.data.body.users
+                    this.loading = false
                 }
 
-            } catch (error) {               //Catch block to show error/s
+            } catch (error) {
+          //Catch block to show error/s
                 console.log(error)
-                this.Error = true
-                this.errorMessage = error.message
+                if (error.message == "Network Error") {
+                    this.loading = false
+                    this.errMsg = "Network Error"
+                }
+                this.err = true
+                this.errMsg = error.message
             }
         }
     }
@@ -202,5 +231,118 @@ h4 {
 
 li {
     padding: 0 10px;
+}
+
+
+/* Loader starts */
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+    text-align: center;
+    margin-top: 12%;
+}
+
+.lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+}
+
+.lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgb(255, 255, 255);
+    margin: -4px 0 0 -4px;
+}
+
+.lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+
+.lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+}
+
+.lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+
+.lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+}
+
+.lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+
+.lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+}
+
+.lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+
+.lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+}
+
+.lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+
+.lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+}
+
+.lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+
+.lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+}
+
+.lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+
+.lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+}
+
+.lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+
+.lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+}
+
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>
