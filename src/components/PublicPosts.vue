@@ -15,7 +15,7 @@
                     <img :src="this.data.thumbnail_src" alt="">
                     <h6>{{this.data.owner.username}}</h6>
                     <div>
-                        <img :src="this.data.display_url" alt="">
+                        <img crossorigin="anonymous" src="../assets/fallback.jpg" alt="">
                     </div>
                 </div>
 
@@ -35,7 +35,8 @@ export default {
             errMsg: '',
             data: [],
             networkError: '',
-            Error: ''
+            Error: '',
+            lll:''
         }
     },
     async mounted() {
@@ -64,6 +65,8 @@ export default {
             } else {
                 this.dataFetched = true
                 this.data = result.data.body.edges[0].node
+                this.lll= result.data.body.edges[0].node.display_url
+                console.log(this.lll)
             }
 
         } catch (error) {               //Catch block to show error/s
