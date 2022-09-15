@@ -51,19 +51,19 @@
                     </nav>
                 </div>
 
-                <h4 v-if="err">
+                <h4 class="error" v-if="err">
                     {{this.errMsg}}
                 </h4>
 
-                <h4 v-if="Error">
+                <h4 class="error" v-if="Error">
                     {{this.errorMessage}}
                 </h4>
 
                 <div v-if="dataFetched" class="searchResults container-fluid p-0 m-0">
                     <div v-for="user in searchData" :key="user.id" class="user-thumbnail row">
                         <div class="user row d-flex">
-                            <router-link :to=" `/public-posts/`+ user.user.pk ">
-                                <div><img class="imageSmall" :src="user.user.profile_pic_url" alt="profile picture">
+                            <router-link class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk ">
+                                <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
                                 </div>
                                 <div class="user-details d-flex flex-column">
                                     <div>
@@ -151,51 +151,35 @@ export default {
             }
         }
     }
-    // async mounted() {
-    //     // let username1 = (this.$route.params.username).toString()
-    //     console.log(username1)
-    //     // API fetching in try block
-    //     try {
-    //         const result = await axios.get(
-    //             'https://instagram47.p.rapidapi.com/search',
-    //             {
-    //                 headers: {
-    //                     'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
-    //                     'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
-    //                 },
-    //                 params: { search: username1 },
-    //             });
-    //         console.log(result)
-    //         if(result.data.statusCode)
-    //         this.searchData = result.data.body.users
-    //     } catch (error) {               //Catch block to show error/s
-    //         console.log(error)
-    //         this.errorMsg = error.message
-    //     }
-    // }
 }
 </script>
 
 <style>
 body {
     padding: 0;
-    margin: 0;
+    margin: 0;  
     background-color: black;
 }
 
-h4 {
+h4.error {
     color: antiquewhite;
     font-family: Calibri;
     margin-top: 3rem;
 }
-
+.user-details{
+    padding: 7px 15px;
+}
 .home-screen {
     height: 100vh;
+}
+.imageDiv{
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
 }
 
 .search-bar {
     height: 50px;
-    border-bottom: 1px solid grey;
     padding: 7px auto
 }
 
@@ -204,6 +188,9 @@ h4 {
     margin: 6px 0 6px 6px;
     color: white;
     font-family: Calibri;
+}
+.navbar{
+    border-bottom: 1px solid grey;
 }
 
 .row {
@@ -217,8 +204,8 @@ h4 {
 }
 
 .imageSmall {
-    height: 45px;
-    width: 45px;
+    height: 53px;
+    width: 53px;
     border-radius: 50%;
 }
 

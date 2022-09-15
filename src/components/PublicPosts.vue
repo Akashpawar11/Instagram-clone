@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="container-fluid">
-            <router-link v-if="dataFetched" to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
-            <h4>Posts</h4>
+            <h4 style="margin: 0; text-align: left; border-radius: 1px solid grey;">Posts</h4>
             <h4 v-if="err">
                 {{this.errMsg}}
             </h4>
