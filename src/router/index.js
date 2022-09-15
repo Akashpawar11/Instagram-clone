@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomePage from '../components/Home.vue'
-import SearchResults from '../components/SearchResults.vue'
+// import SearchResults from '../components/SearchResults.vue'
 import PublicPosts from '../components/PublicPosts.vue'
 
 Vue.use(VueRouter)
@@ -12,13 +12,13 @@ const routes = [
     name: 'home',
     component: HomePage
   },
+  // {
+  //   path: '/search-results/:username',
+  //   name: 'SearchResults',
+  //   component: SearchResults
+  // },
   {
-    path: '/search-results/:username',
-    name: 'SearchResults',
-    component: SearchResults
-  },
-  {
-    path: '/public-posts',
+    path: '/public-posts/:id',
     name: 'PublicPosts',
     component: PublicPosts
   },
