@@ -19,7 +19,12 @@ const routes = [
   //   component: SearchResults
   // },
   {
-    path: '/public-posts/:id',
+    path: '/public-posts/:id/public-acc',
+    name: 'PublicPosts',
+    component: PublicPosts
+  },
+  {
+    path: '/public-posts/:id/pvt-acc',
     name: 'PublicPosts',
     component: PublicPosts
   },

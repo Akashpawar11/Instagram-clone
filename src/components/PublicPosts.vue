@@ -46,7 +46,7 @@ export default {
                 'https://instagram47.p.rapidapi.com/public_user_posts',
                 {
                     headers: {
-                        'X-RapidAPI-Key': 'd4903c298emshd5d047f07ca52bdp13d08ejsn0b2611e63d82',
+                        'X-RapidAPI-Key': '688eb0beeemsh8c7daafd5c3556ep15a70cjsn064a2a646b55',
                         'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
                     },
                     params: { userid: userID }
@@ -64,7 +64,8 @@ export default {
             } else {
                 this.dataFetched = true
                 this.data = result.data.body.edges[0].node
-                this.lll= result.data.body.edges[0].node.display_url
+                this.lll = result.data.body.edges[0].node.display_url
+                this.private = result.data.body.edges[0].node.
                 console.log(this.lll)
             }
 
