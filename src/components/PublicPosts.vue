@@ -89,14 +89,14 @@ export default {
     name: 'PublicPosts',
     data() {
         return {
-            // dataFetched: '',
-            // err: '',
-            // errMsg: '',
+            dataFetched: '',
+            err: '',
+            errMsg: '',
             data: [],
-            // networkError: '',
-            // Error: '',
-            // lll: '',
-            // private: '',
+            networkError: '',
+            Error: '',
+            lll: '',
+            private: '',
             loading: true,
             // after_fetch_error: '',
             // imgs: [],
@@ -104,55 +104,55 @@ export default {
         }
     },
     async mounted() {
-        // try {
-        //     this.loading = true
-        //     this.after_fetch_error = true
-        //     let userID = (this.$route.params.id).toString()
-        //     console.log(userID)
-        //     let result = await axios.get(
-        //         'https://instagram47.p.rapidapi.com/public_user_posts',
-        //         {
-        //             headers: {
-        //                 'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
-        //                 'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
-        //             },
-        //             params: { userid: userID }
-        //         });
-        //     console.log(result)
-        //     if (result.data.statusCode == 203 || result.data.statusCode == 202) {
-        //         this.dataFetched = false
-        //         this.err = true
-        //         this.loading = false
-        //         this.after_fetch_error = false
-        //         this.errMsg = ("Error Occured - error" + result.data.statusCode)
-        //     } else if (result.message == "Network Error") {
-        //         this.err = true
-        //         this.errMsg = "Network error"
-        //     } else if (result.data.statusCode == 102) {
-        //         this.err = true
-        //         this.errMsg = 'Error 102 - Cannot Process request'
-        //         this.loading = false
-        //         this.after_fetch_error = false
-        //     } else {
-        //         this.dataFetched = true
-        //         this.data = result.data.body.edges[0].node
-        //         let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
-        //         console.log(postdata)
-        //         this.imgs = result.data.body.edges[0].node.edge_sidecar_to_children.edges
-        //         this.imglen = (result.data.body.edges[0].node.edge_sidecar_to_children.edges).length
-        //         this.err = false
-        //         this.Error = false
-        //         this.private = result.data.body.edges[0].node.is_private
-        //         this.loading = false
-        //         console.log(this.private)
-        //     }
+        try {
+            this.loading = true
+            this.after_fetch_error = true
+            let userID = (this.$route.params.id).toString()
+            console.log(userID)
+            let result = await axios.get(
+                'https://instagram47.p.rapidapi.com/public_user_posts',
+                {
+                    headers: {
+                        'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
+                        'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
+                    },
+                    params: { userid: userID }
+                });
+            console.log(result)
+            if (result.data.statusCode == 203 || result.data.statusCode == 202) {
+                this.dataFetched = false
+                this.err = true
+                this.loading = false
+                this.after_fetch_error = false
+                this.errMsg = ("Error Occured - error" + result.data.statusCode)
+            } else if (result.message == "Network Error") {
+                this.err = true
+                this.errMsg = "Network error"
+            } else if (result.data.statusCode == 102) {
+                this.err = true
+                this.errMsg = 'Error 102 - Cannot Process request'
+                this.loading = false
+                this.after_fetch_error = false
+            } else {
+                this.dataFetched = true
+                this.data = result.data.body.edges[0].node
+                let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
+                console.log(postdata)
+                this.imgs = result.data.body.edges[0].node.edge_sidecar_to_children.edges
+                this.imglen = (result.data.body.edges[0].node.edge_sidecar_to_children.edges).length
+                this.err = false
+                this.Error = false
+                this.private = result.data.body.edges[0].node.is_private
+                this.loading = false
+                console.log(this.private)
+            }
 
-        // } catch (error) {               //Catch block to show error/s
-        //     console.log(error)
-        //     this.Error = true
-        //     this.loading = false
-        //     this.errorMessage = error.message
-        // }
+        } catch (error) {               //Catch block to show error/s
+            console.log(error)
+            this.Error = true
+            this.loading = false
+            this.errorMessage = error.message
+        }
         this.loading = true
         let datamulti = await axios.get('http://localhost:3000/postMulti')
         console.log(datamulti)
