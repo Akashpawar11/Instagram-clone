@@ -19,8 +19,8 @@ const routes = [
   //   component: SearchResults
   // },
   {
-    // path: '/public-posts/:id/public-acc',
-    path: '/public-posts/',
+    path: '/public-posts/:id/public-acc',
+    // path: '/public-posts/',
     name: 'PublicPosts',
     component: PublicPosts
   },

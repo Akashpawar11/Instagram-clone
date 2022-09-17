@@ -6,15 +6,13 @@
                 <div class="input-group dark search-bar">
                     <router-link v-if="dataFetched" to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
                     <!-- <router-link to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link> -->
-                    <input type="text" spellcheck="false" style="border-radius: 7px;" v-model="username" class="form-control search-input dark" placeholder="Search">
-                    <!-- <input type="text" spellcheck="false" style="border-radius: 7px;" class="form-control search-input dark" placeholder="Search"> -->
+                    <!-- <input type="text" spellcheck="false" style="border-radius: 7px;" v-model="username" class="form-control search-input dark" placeholder="Search"> -->
+                    <input type="text" spellcheck="false" style="border-radius: 7px;" class="form-control search-input dark" placeholder="Search">
                     <button class="btn" @click="search" type="button">
                         <span style="color:white;padding: 10px 0 10px 10px;" class="fa fa-search" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
-
-
 
             <!-- loader starts -->
             <div>
@@ -55,21 +53,21 @@
                             </ul>
                         </nav>
                     </div>
-
+                    <!-- 
                     <h4 class="error" v-if="err">
                         {{this.errMsg}}
                     </h4>
 
                     <h4 class="error" v-if="Error">
                         {{this.errorMessage}}
-                    </h4>
+                    </h4> -->
 
-                    <!-- <div v-if="dataFetched" class="searchResults container-fluid p-0 m-0"> -->
-                    <div class="searchResults container-fluid p-0 m-0">
+                    <div v-if="dataFetched" class="searchResults container-fluid p-0 m-0">
+                        <!-- <div class="searchResults container-fluid p-0 m-0"> -->
                         <div v-for="user in searchData" :key="user.id" class="user-thumbnail row">
                             <div class="user row d-flex">
                                 <!-- <router-link class="d-flex flex-row" to="/public-posts/"> -->
-                                <router-link v-if="user.user.is_private == false" class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/public-acc'">
+                                <router-link class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/public-acc'">
                                     <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
                                     </div>
                                     <div class="user-details d-flex flex-column">
@@ -101,98 +99,99 @@
 
             </div>
         </div>
-        </div>
+    </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import SearchResults from './SearchResults.vue';
 export default {
     name: "HomePage",
     components: {
-        // SearchResults
     },
     data() {
         return {
             searchData: [],
-            username: "",
+            // username: "",
             dataFetched: '',
-            Error: '',
-            errorMessage: '',
-            loading: false,
-            err: '',
-            errMsg: '',
+            // Error: '',
+            // errorMessage: '',
+            // loading: false,
+            // err: '',
+            // errMsg: '',
             loading: false
         };
     },
     methods: {
         async search() {
-            try {
-                this.loading = true
-                let username1 = this.username
-                var result = await axios.get(
-                    'https://instagram47.p.rapidapi.com/search',
-                    {
-                        headers: {
-                            'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
-                            'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
-                        },
-                        params: { search: username1 },
-                    });
-                console.log(result)
-                if (result.data.statusCode == 203 || result.data.statusCode == 202) {
-                    this.loading = false
-                    this.dataFetched = false
-                    this.err = true
-                    this.errMsg = ("Error Occured - error" + result.data.statusCode)
-                } else if (result.message == "Network Error") {
-                    this.loading = false
-                    this.networkError = true
-                } else if (result.data.statusCode == 102) {
-                    this.err = true
-                    this.errMsg = 'Error 102 - Cannot Process request'
-                    this.loading = false
-                } else {
-                    this.dataFetched = true
-                    this.searchData = result.data.body.users
-                    // let multidata = await axios.post('http://localhost:3000/postMulti', this.searchData)
-                    // console.log(multidata)
-                    this.loading = false
-                }
-                this.loading = false
+            // try {
+            //     this.loading = true
+            //     let username1 = this.username
+            //     var result = await axios.get(
+            //         'https://instagram47.p.rapidapi.com/search',
+            //         {
+            //             headers: {
+            //                 'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
+            //                 'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
+            //             },
+            //             params: { search: username1 },
+            //         });
+            //     console.log(result)
+            //     if (result.data.statusCode == 203 || result.data.statusCode == 202) {
+            //         this.loading = false
+            //         this.dataFetched = false
+            //         this.err = true
+            //         this.errMsg = ("Error Occured - error" + result.data.statusCode)
+            //     } else if (result.message == "Network Error") {
+            //         this.loading = false
+            //         this.networkError = true
+            //     } else if (result.data.statusCode == 102) {
+            //         this.err = true
+            //         this.errMsg = 'Error 102 - Cannot Process request'
+            //         this.loading = false
+            //     } else {
+            //         this.dataFetched = true
+            //         this.searchData = result.data.body.users
+            //         this.err = false
+            //         this.Error = false
+            //         // let multidata = await axios.post('http://localhost:3000/postMulti', this.searchData)
+            //         // console.log(multidata)
+            //         this.loading = false
+            //     }
+            //     this.loading = false
 
-            } catch (error) {
-                //Catch block to show error/s
-                console.log(error)
-                if (error.message == "Network Error") {
-                    this.loading = false
-                    this.Error = true
-                    this.errorMessage = "Network Error"
-                    console.log(this.errorMessage)
-                } else if (error.message == "Request failed with status code 429") {
-                    this.loading = false
-                    this.Error = true
-                    this.errorMessage = "Request failed with status code 429"
-                    console.log(this.errorMessage)
-                } else {
-                    this.loading = false
-                    this.Error = true
-                    this.errorMessage = error.message
-                    console.log(this.errorMessage)
-                }
-            }
+            // } catch (error) {
+            //     //Catch block to show error/s
+            //     console.log(error)
+            //     if (error.message == "Network Error") {
+            //         this.loading = false
+            //         this.Error = true
+            //         this.errorMessage = "Network Error"
+            //         console.log(this.errorMessage)
+            //     } else if (error.message == "Request failed with status code 429") {
+            //         this.loading = false
+            //         this.Error = true
+            //         this.errorMessage = "Request failed with status code 429"
+            //         console.log(this.errorMessage)
+            //     } else {
+            //         this.loading = false
+            //         this.Error = true
+            //         this.errorMessage = error.message
+            //         console.log(this.errorMessage)
+            //     }
+            // }
+
+            this.loading = true
+            let dbData = await axios.get('http://localhost:3000/data');
+            console.log(dbData.data[0].user.username)
+            this.searchData = dbData.data
+            this.loading = false
+            this.dataFetched = true
+            console.log(this.searchData)
 
         }
     }
 }
 
-            //     this.loading = true
-            //     let dbData = await axios.get('http://localhost:3000/data');
-            //     console.log(dbData.data[0].user.username)
-            //     this.searchData = dbData.data
-            //     this.loading = false
-            //     console.log(this.searchData)
-            // }
 </script>
 
 <style>
@@ -275,7 +274,7 @@ h4.error {
 
 .arrow-icon {
     height: 40px;
-    margin-top: 10px;
+    margin: 15px 0 0 15px;
     color: white;
     padding-right: 15px;
 }
