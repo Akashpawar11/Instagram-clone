@@ -1,9 +1,6 @@
 <template>
     <div>
         <div class="container-fluid p-0 m-0">
-            <!-- <div>
-
-            </div> -->
             <router-link to="/"><i style="float:left; font-size:24px;" class="arrow-icon fa fa-arrow-left"></i></router-link>
             <h4 id="posts-word">Posts</h4><br>
             <h2 id="ifPvt" v-if="pvt">This user is private</h2>
@@ -18,12 +15,11 @@
                 <div></div>
             </div>
 
+            <!-- error block -->
             <div>
-
                 <h4 v-if="err">
                     {{this.errMsg}}
                 </h4>
-
                 <h4 v-if="Error">
                     {{this.errorMessage}}
                 </h4>
@@ -33,11 +29,13 @@
                 <!-- <div style="overflow:auto;" class="container-fluid p-0 m-0"> -->
                 <div style="overflow:auto;" class="container-fluid p-0 m-0" v-if="dataFetched">
                     <div class="row">
+
                         <div class="user-post-data">
                             <img class="xsImage" src="../assets/users-avatar.jpg" alt="">
                             <h6 style="color: antiquewhite;text-align: left; float: left;display: contents;">{{this.data.owner.username}}</h6>
 
                         </div>
+
                         <div id="carouselExampleIndicators" class="carousel slide p-0" data-bs-ride="true">
                             <div class="carousel-indicators" v-for="picture in pictures" :key="picture.id">
                                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -62,12 +60,6 @@
                             </button>
                         </div>
 
-                        <!-- <div class="BIG carousel slide">
-                            <div class="p-0 imgB carousel-inner" v-for="picture in pictures" :key="picture.index">
-                                <img class="post-image w-100" crossorigin="anonymous" src="../assets/fallback1.jpg" alt="">
-                                <h1 style="color:white;">{{picture.node.id}}</h1>
-                            </div>
-                        </div> -->
 
                         <div class="d-flex row p-0">
                             <div>
@@ -75,17 +67,11 @@
                                 <i class="bi bi-chat comment"></i>
                                 <i class="fa fa-regular fa-paper-plane"></i>
                             </div>
-                            <!-- <i class='far fa-comment' style='font-size:24px'></i>
-                            <i class="fa fa-paper-plane" style="font-size:24px"></i> -->
                             <h6 class="likes">{{this.data.edge_media_preview_like.count}} likes</h6><br>
                             <p class="caption">
                                 <b>{{this.data.owner.username}}</b> {{this.data.edge_media_to_caption.edges[0].node.text}}
                             </p>
                         </div>
-
-                        <!-- <p v-for="item in filteredItems">{{ item }}</p> -->
-
-
 
                     </div>
                 </div>
@@ -115,88 +101,91 @@ export default {
             imgs: [],
             imglen: '',
             liked: true,
-            pvt: false
+            pvt: false,
+            realAPI: false
         }
     },
     async mounted() {
-        // let Status = this.$route.params.status
-        // console.log(Status)    
+        if (realAPI == true) {
+
+            let Status = this.$route.params.status
+            console.log(Status)
 
 
-        // if (status == 'true') {
-        //     this.pvt = true
-        //     this.loading =false
-        // } else
-        // {
-        // try {
-        //     this.loading = true
-        //     this.after_fetch_error = true
-        //     let userID = (this.$route.params.id).toString()
-        //     console.log(userID)
-        //     let result = await axios.get(
-        //         'https://instagram47.p.rapidapi.com/public_user_posts',
-        //         {
-        //             headers: {
-        //                 'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
-        //                 'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
-        //             },
-        //             params: { userid: userID }
-        //         });
-        //     console.log(result)
-        //     if (result.data.statusCode == 203 || result.data.statusCode == 202) {
-        //         this.dataFetched = false
-        //         this.err = true
-        //         this.loading = false
-        //         this.after_fetch_error = false
-        //         this.errMsg = ("Error Occured - error" + result.data.statusCode)
-        //     } else if (result.message == "Network Error") {
-        //         this.err = true
-        //         this.errMsg = "Network error"
-        //     } else if (result.data.statusCode == 102) {
-        //         this.err = true
-        //         this.errMsg = 'Error 102 - Cannot Process request'
-        //         this.loading = false
-        //         this.after_fetch_error = false
-        //     } else {
-        //         this.dataFetched = true
-        //         this.data = result.data.body.edges[0].node
-        //         // let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
-        //         // console.log(postdata)
-        //         this.imgs = result.data.body.edges[0].node.edge_sidecar_to_children.edges
-        //         this.imglen = (result.data.body.edges[0].node.edge_sidecar_to_children.edges).length
-        //         this.err = false
-        //         this.Error = false
-        //         this.private = result.data.body.edges[0].node.is_private
-        //         this.loading = false
-        //         console.log(this.private)
-        //     }
+            if (status == 'true') {
+                this.pvt = true
+                this.loading = false
+            } else {
+                try {
+                    this.loading = true
+                    this.after_fetch_error = true
+                    let userID = (this.$route.params.id).toString()
+                    console.log(userID)
+                    let result = await axios.get(
+                        'https://instagram47.p.rapidapi.com/public_user_posts',
+                        {
+                            headers: {
+                                'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
+                                'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
+                            },
+                            params: { userid: userID }
+                        });
+                    console.log(result)
+                    if (result.data.statusCode == 203 || result.data.statusCode == 202) {
+                        this.dataFetched = false
+                        this.err = true
+                        this.loading = false
+                        this.after_fetch_error = false
+                        this.errMsg = ("Error Occured - error" + result.data.statusCode)
+                    } else if (result.message == "Network Error") {
+                        this.err = true
+                        this.errMsg = "Network error"
+                    } else if (result.data.statusCode == 102) {
+                        this.err = true
+                        this.errMsg = 'Error 102 - Cannot Process request'
+                        this.loading = false
+                        this.after_fetch_error = false
+                    } else {
+                        this.dataFetched = true
+                        this.data = result.data.body.edges[0].node
+                        // let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
+                        // console.log(postdata)
+                        this.imgs = result.data.body.edges[0].node.edge_sidecar_to_children.edges
+                        this.imglen = (result.data.body.edges[0].node.edge_sidecar_to_children.edges).length
+                        this.err = false
+                        this.Error = false
+                        this.private = result.data.body.edges[0].node.is_private
+                        this.loading = false
+                        console.log(this.private)
+                    }
 
-        // } catch (error) {               //Catch block to show error/s
-        //     console.log(error)
-        //     this.Error = true
-        //     this.loading = false
-        //     this.errorMessage = error.message
-        // }
-        let status = this.$route.params.status
-        console.log(status)
-
-
-        if (status == 'true') {
-            this.pvt = true
-            this.loading = false
+                } catch (error) {               //Catch block to show error/s
+                    console.log(error)
+                    this.Error = true
+                    this.loading = false
+                    this.errorMessage = error.message
+                }
+            }
         } else {
-            this.loading = true
-            let datamulti = await axios.get('http://localhost:3000/postMulti')
-            console.log(datamulti)
-            this.data = datamulti.data[0]
-            this.pictures = datamulti.data[0].edge_sidecar_to_children.edges
-            console.log('data', this.data)
-            console.log('pictures', this.pictures)
-            this.loading = false
-            this.dataFetched = true
+            let status = this.$route.params.status
+            console.log(status)
+
+            if (status == 'true') {
+                this.pvt = true
+                this.loading = false
+            } else {
+                this.loading = true
+                let datamulti = await axios.get('http://localhost:3000/postMulti')
+                console.log(datamulti)
+                this.data = datamulti.data[0]
+                this.pictures = datamulti.data[0].edge_sidecar_to_children.edges
+                console.log('data', this.data)
+                console.log('pictures', this.pictures)
+                this.loading = false
+                this.dataFetched = true
+            }
         }
-    }
-    ,
+    },
     methods: {
         toggleLike() {
             let heart = document.getElementById('heart')
