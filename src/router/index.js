@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'HomePage',
     component: HomePage
   },
   // {
@@ -19,7 +19,7 @@ const routes = [
   //   component: SearchResults
   // },
   {
-    path: '/public-posts/:id/public-acc',
+    path: '/public-posts/:id/:status',
     // path: '/public-posts/',
     name: 'PublicPosts',
     component: PublicPosts

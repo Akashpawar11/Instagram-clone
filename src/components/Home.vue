@@ -4,10 +4,11 @@
             <!-- Search Bar -->
             <div class="row">
                 <div class="input-group dark search-bar">
-                    <router-link v-if="dataFetched" to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
+                    <!-- <router-link to="/"><i style="float:left; font-size:24px;" class="arrow-icon fa fa-arrow-left"></i></router-link> -->
+                    <router-link to="/" @click="dataFetched = false" v-if="dataFetched" ><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
                     <!-- <router-link to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link> -->
                     <!-- <input type="text" spellcheck="false" style="border-radius: 7px;" v-model="username" class="form-control search-input dark" placeholder="Search"> -->
-                    <input type="text" spellcheck="false" style="border-radius: 7px;" class="form-control search-input dark" placeholder="Search">
+                    <input type="text" @keypress="Keysearch" spellcheck="false" style="border-radius: 7px;" class="form-control search-input dark" placeholder="Search">
                     <button class="btn" @click="search" type="button">
                         <span style="color:white;padding: 10px 0 10px 10px;" class="fa fa-search" aria-hidden="true"></span>
                     </button>
@@ -29,9 +30,10 @@
             </div>
 
             <!-- <Searched Results if api fetched successfully/> -->
-            <!-- <div v-if="!loading" class="container-fluid home-screen p-0 m-0"> -->
+
+            <!-- After loader stops -->
             <div v-if="!loading" class="container-fluid home-screen p-0 m-0">
-                <div class="container-fluid p-0 m-0">
+                <!-- <div class="container-fluid p-0 m-0"> -->
                     <div v-if="dataFetched" class="row p-0 m-0">
                         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                             <ul class="navbar-nav navbarflex">
@@ -53,7 +55,7 @@
                             </ul>
                         </nav>
                     </div>
-                    <!-- 
+                    <!--                     
                     <h4 class="error" v-if="err">
                         {{this.errMsg}}
                     </h4>
@@ -62,12 +64,14 @@
                         {{this.errorMessage}}
                     </h4> -->
 
+                    <!-- Execute This block if Data is Fethced succesfully -->
+
                     <div v-if="dataFetched" class="searchResults container-fluid p-0 m-0">
-                        <!-- <div class="searchResults container-fluid p-0 m-0"> -->
                         <div v-for="user in searchData" :key="user.id" class="user-thumbnail row">
                             <div class="user row d-flex">
-                                <!-- <router-link class="d-flex flex-row" to="/public-posts/"> -->
-                                <router-link class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/public-acc'">
+
+                                <!-- If user account is private -->
+                                <router-link v-if="user.user.is_private == true" class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/' + user.user.is_private">
                                     <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
                                     </div>
                                     <div class="user-details d-flex flex-column">
@@ -79,25 +83,30 @@
                                         </div>
                                     </div>
                                 </router-link>
-                                <!-- <router-link v-if="user.user.is_private == true" class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/pvt-acc'">
-                                <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
-                                </div>
-                                <div class="user-details d-flex flex-column">
-                                    <div>
-                                        <h5 style="color:antiquewhite">{{user.user.username}}</h5>
+
+                                <!-- If user account is public -->
+                                <router-link v-else class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/public-acc'">
+                                    <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
                                     </div>
-                                    <div>
-                                        <h6 style="color:gainsboro">{{user.user.full_name}}</h6>
+                                    <div class="user-details d-flex flex-column">
+                                        <div>
+                                            <h5 style="color:white; text-align: left; font-size: 1rem;">{{user.user.username}}</h5>
+                                        </div>
+                                        <div>
+                                            <h6 style="color:#646464;text-align: left; font-size: 1rem;">{{user.user.full_name}}</h6>
+                                        </div>
                                     </div>
-                                </div>
-                            </router-link> -->
+                                </router-link>
+
                             </div>
                         </div>
                     </div>
+                    <!-- v-data fetced ends here -->
 
-                </div>
-
+                <!-- </div> -->
             </div>
+            <!-- v-if !loading ends here -->
+
         </div>
     </div>
 </template>
@@ -122,7 +131,14 @@ export default {
         };
     },
     methods: {
+        async Keysearch(e) {
+            if (e.key == 'Enter') {
+                this.search()
+            }
+},
+        
         async search() {
+        
             // try {
             //     this.loading = true
             //     let username1 = this.username
@@ -153,8 +169,8 @@ export default {
             //         this.searchData = result.data.body.users
             //         this.err = false
             //         this.Error = false
-            //         // let multidata = await axios.post('http://localhost:3000/postMulti', this.searchData)
-            //         // console.log(multidata)
+            //         // let pvt = await axios.post('http://localhost:3000/pvt', this.searchData)
+            //         // console.log(pvt)
             //         this.loading = false
             //     }
             //     this.loading = false
@@ -200,6 +216,10 @@ body {
     margin: 0;
     background-color: black;
 }
+a:hover{
+    text-decoration: none;
+    color: none;
+}
 
 h4.error {
     color: antiquewhite;
@@ -244,6 +264,11 @@ h4.error {
 }
 
 .btn:active {
+    text-decoration: none;
+    border: none;
+}
+.btn:focus {
+    text-decoration: none;
     border: none;
 }
 
