@@ -392,7 +392,13 @@ export default {
 }
 
 .carousel-indicators button.active{
-   background-color: rgb(0, 119, 255);
+   background-color: rgb(255, 255, 255);
+   height: 7px;
+   width: 7px;
+   margin: -1px 3px 0px 3px;
+}
+.carousel-indicators button{
+   background-color: rgb(158, 158, 158);
 }
 .carousel-indicators [data-bs-target] {
     box-sizing: content-box;
@@ -401,7 +407,7 @@ export default {
     height: 5px;
     padding: 0px;
     margin: 0 4px 8px 4px;
-    /* text-indent: -999px; */
+    text-indent: -999px;
     cursor: pointer;
     background-color: #ffffff;
     background-clip: padding-box;
@@ -410,7 +416,7 @@ export default {
     border-radius: 50%;
     /* border-bottom: 10px solid transparent; */
     /* opacity: .5; */
-    transition: .6s ease;
+    /* transition: .6s ease; */
 }
 
 .carousel-item {
