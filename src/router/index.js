@@ -4,6 +4,10 @@ import HomePage from '../components/Home.vue'
 // import SearchResults from '../components/SearchResults.vue'
 import PublicPosts from '../components/PublicPosts.vue'
 import errorPage from '../components/errorPage.vue'
+import TopTab from '../components/Top.vue'
+import AudioTab from '../components/Audio.vue'
+import PlacesTab from '../components/Places.vue'
+import TagsTab from '../components/Tags.vue'
 
 Vue.use(VueRouter)
 
@@ -24,11 +28,26 @@ const routes = [
     name: 'PublicPosts',
     component: PublicPosts
   },
-  // {
-  //   path: '/public-posts/:id/pvt-acc',
-  //   name: 'PublicPosts',
-  //   component: PublicPosts
-  // },
+  {
+    path: '/search-results/top',
+    name: 'TopTab',
+    component: TopTab
+  },
+  {
+    path: '/search-results/audio',
+    name: 'AudioTab',
+    component: AudioTab
+  },
+  {
+    path: '/search-results/places',
+    name: 'PlacesTab',
+    component: PlacesTab
+  },
+  {
+    path: '/search-results/tags',
+    name: 'TagsTab',
+    component: TagsTab
+  },
   {
     path: '*',
     name: 'errorPage',

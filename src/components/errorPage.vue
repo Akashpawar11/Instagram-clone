@@ -1,7 +1,7 @@
 <template>
     <div class="bgError">
-        <img class="gif" src="../assets/404-error.gif" alt="">
-        <h2 class="center">Error 404 - Page not Found</h2>
+        <!-- <img class="gif" src="../assets/404-error.gif" alt=""> -->
+        <h2 class="center">Error 404 - Page Not Fount</h2>
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 .bgError{
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
     height: 100vh;
     width: 100vw;
 }

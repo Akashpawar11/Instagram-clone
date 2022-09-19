@@ -47,8 +47,8 @@
 
                         <!-- Carousel for post with multiple images - start -->
                         <div id="carouselExampleIndicators" class="carousel p-0" data-bs-ride="false">
-                            <!-- Carousel indicators -start                            -->
-                            <div class="carousel-indicators" v-for="picture in pictures" :key="picture.id">
+                            <!-- Carousel indicators - start -->
+                            <div class="carousel-indicators">
                                 <button v-if="pictures.length > 0" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                                 <button v-if="pictures.length > 1" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
                                 <button v-if="pictures.length > 2" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-current="true" aria-label="Slide 3"></button>
@@ -331,9 +331,7 @@ export default {
 .post-image {
     height: inherit;
     width: inherit;
-    /* position: relative; */
     transition: 0s;
-    /* display: block; */
 }
 
 
@@ -358,9 +356,6 @@ export default {
 .fa-heart-o {
     color: rgb(255, 255, 255);
 }
-/* .fa-heart-o:active {
-    transform: scale(1.1);
-} */
 
 .fa-paper-plane {
     float: left;
@@ -393,10 +388,12 @@ export default {
     text-align: initial;
 }
 .carousel-indicators{
-    margin-bottom: -43px;
-
+    margin-bottom: -30px;
 }
 
+.carousel-indicators button.active{
+   background-color: rgb(0, 119, 255);
+}
 .carousel-indicators [data-bs-target] {
     box-sizing: content-box;
     flex: 0 1 auto;
@@ -404,16 +401,16 @@ export default {
     height: 5px;
     padding: 0px;
     margin: 0 4px 8px 4px;
-    text-indent: -999px;
+    /* text-indent: -999px; */
     cursor: pointer;
     background-color: #ffffff;
     background-clip: padding-box;
     border: 0;
-    border-top: 10px solid transparent;
+    /* border-top: 10px solid transparent; */
     border-radius: 50%;
-    border-bottom: 10px solid transparent;
-    opacity: .5;
-    transition: opacity .6s ease;
+    /* border-bottom: 10px solid transparent; */
+    /* opacity: .5; */
+    transition: .6s ease;
 }
 
 .carousel-item {
@@ -426,4 +423,5 @@ export default {
     backface-visibility: hidden;
     transition: .6s ease-in-out;
 }
+
 </style>

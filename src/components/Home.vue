@@ -34,19 +34,19 @@
                     <nav class="navbar navbar-expand-lg navbar-dark">
                         <ul class="navbar-nav navbarflex">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Top</a>
+                                <router-link class="nav-link" to="/search-results/top">Top</router-link>
                             </li>
                             <li style="border-bottom:2px solid white" class="nav-item">
-                                <a class="nav-link active" href="">Accounts</a>
+                                <router-link class="nav-link active" to="#">Accounts</router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Audio</a>
+                                <router-link class="nav-link" to="/search-results/audio">Audio</router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Tags</a>
+                                <router-link class="nav-link" to="/search-results/tags">Tags</router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Places</a>
+                                <router-link class="nav-link" to="/search-results/places">Places</router-link>
                             </li>
                         </ul>
                     </nav>
