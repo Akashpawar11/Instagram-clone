@@ -1,18 +1,25 @@
 <template>
+    <!-- main div -->
     <div>
+        <!-- main container-fluid -->
         <div class="container-fluid p-0 m-0">
+            <!-- Back button -->
             <router-link to="/"><i style="float:left; font-size:24px;" class="arrow-icon fa fa-arrow-left"></i></router-link>
             <h4 id="posts-word">Posts</h4><br>
-            <h2 id="ifPvt" v-if="pvt">This user is private</h2>
-            <div style=" margin: 120px;" class="lds-roller" v-if="loading">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+            <!-- If user is Private -->
+            <h2 v-if="pvt" id="ifPvt" >This user is private</h2>
+            <!-- loader -->
+            <div v-if="loading" style="margin: 7rem auto;">
+                <div class="lds-roller">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
 
             <!-- error block -->
@@ -25,19 +32,22 @@
                 </h4>
             </div>
 
+            <!-- If loader stops - this block will be executed -->
             <div v-if="!loading">
-                <!-- <div style="overflow:auto;" class="container-fluid p-0 m-0"> -->
-                <div style="overflow:auto;" class="container-fluid p-0 m-0" v-if="dataFetched">
+                <!-- container fluid if !loading -->
+                <div v-if="dataFetched" class="container-fluid p-0 m-0" style="overflow:auto;">
+                    <!-- row inside container-fluid -->
                     <div class="row">
-
+                        <!-- thumbnail image ,username & dots above post -->
                         <div class="user-post-data">
                             <img class="xsImage" src="../assets/users-avatar.jpg" alt="">
                             <h6 style="color: antiquewhite;text-align: left; float: left;display: contents;">{{this.data.owner.username}}</h6>
                             <img id="dots" src="../assets/menu.png" alt="">
-
                         </div>
 
+                        <!-- Carousel for post with multiple images - start -->
                         <div id="carouselExampleIndicators" class="carousel p-0" data-bs-ride="false">
+                            <!-- Carousel indicators -start                            -->
                             <div class="carousel-indicators" v-for="picture in pictures" :key="picture.id">
                                 <button v-if="pictures.length > 0" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                                 <button v-if="pictures.length > 1" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
@@ -50,12 +60,77 @@
                                 <button v-if="pictures.length > 8" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-current="true" aria-label="Slide 9"></button>
                                 <button v-if="pictures.length > 9" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-current="true" aria-label="Slide 10"></button>
                             </div>
-                            <div class="carousel-item active" v-for="picture in pictures" :key="picture.index">
-                                <div class="carousel-inner ">
+                            <!-- carousel indicators -end -->
+                            <!-- Carousel item w/ for loop -start -->
+                            <!-- <div class="carousel-item active" v-for="picture in pictures" :key="picture.index">
+                                <div class="carousel-inner">
                                     <img class="post-image" src="../assets/fallback1.jpg" alt="">
                                     <h6 style="margin: 5px 0 0 0;">{{picture.node.id}}</h6>
                                 </div>
+                            </div> -->
+                            <!-- Carousel item w/ for loop -start -->
+                            <div  id="first" v-if="pictures.length > 0" class="carousel-item active">
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <!-- <h6 style="margin: 5px 0 0 0;">{{this.pictures[0].node.id}}</h6> -->
+                                </div>
                             </div>
+                            <div v-if="pictures.length > 1" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback2.jpg" alt="">
+                                    <!-- <h6 style="margin: 5px 0 0 0;">{{this.pictures[1].node.id}}</h6> -->
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 2" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback3.jpg" alt="">
+                                    <!-- <h6 style="margin: 5px 0 0 0;">{{this.pictures[2].node.id}}</h6> -->
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 3" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback4.jpg" alt="">
+                                    <!-- <h6 style="margin: 5px 0 0 0;">{{this.pictures[3].node.id}}</h6> -->
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 4" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback5.jpg" alt="">
+                                    <!-- <h6 style="margin: 5px 0 0 0;">{{this.pictures[4].node.id}}</h6> -->
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 5" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <h6 style="margin: 5px 0 0 0;">{{this.pictures[5].node.id}}</h6>
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 6" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <h6 style="margin: 5px 0 0 0;">{{this.pictures[6].node.id}}</h6>
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 7"  class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <h6 style="margin: 5px 0 0 0;">{{this.pictures[7].node.id}}</h6>
+                                </div>
+                            </div>
+                            <div  v-if="pictures.length > 8" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <h6 style="margin: 5px 0 0 0;">{{this.pictures[8].node.id}}</h6>
+                                </div>
+                            </div>
+                            <div v-if="pictures.length > 9" class="carousel-item" >
+                                <div class="carousel-inner">
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <h6 style="margin: 5px 0 0 0;">{{this.pictures[9].node.id}}</h6>
+                                </div>
+                            </div>
+                            <!-- Carousel item w/ for loop - end -->
+                            <!-- carousel buttons < , > hidden - start -->
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon visually-hidden" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
@@ -64,28 +139,33 @@
                                 <span class="carousel-control-next-icon visually-hidden" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                             </button>
+                            <!-- carousel buttons < , > hidden - end -->
                         </div>
-
-
+                        <!-- Carousel for post with multiple images - end -->
+                        <!-- block for icons,likes,caption - start -->
                         <div class="d-flex row p-0">
-                            <div>
+                            <div id="icons" style="padding: 0px 0 0 10px;">
                                 <i @click="toggleLike" id="heart" class="fa fa-heart"></i>
                                 <i class="bi bi-chat comment"></i>
                                 <i class="fa fa-regular fa-paper-plane"></i>
-                                <img id="savepost" src="../assets/save-instagram.png" alt="">
+                                <img style="color:aliceblue" id="savepost" src="../assets/save-instagram.png" alt="">
                             </div>
                             <h6 class="likes">{{this.data.edge_media_preview_like.count}} likes</h6><br>
                             <p class="caption">
-                                <b>{{this.data.owner.username}}</b> {{this.data.edge_media_to_caption.edges[0].node.text}}
+                                <b style="font-size: 15px;">{{this.data.owner.username}}</b> {{this.data.edge_media_to_caption.edges[0].node.text}}
                             </p>
                         </div>
-
+                        <!-- block for icons,likes,caption - end -->
                     </div>
+                    <!-- row inside container-fluid -end -->
                 </div>
+                <!-- container fluid if !loading - end  -->
             </div>
-
+            <!-- v-if !loading - end -->
         </div>
+        <!-- main container-fluid - end -->
     </div>
+        <!-- main div - end -->
 </template>
 
 <script>
@@ -101,10 +181,8 @@ export default {
             pictures: [],
             networkError: '',
             Error: '',
-            lll: '',
             private: '',
             loading: true,
-            after_fetch_error: '',
             imgs: [],
             len: '',
             liked: true,
@@ -142,7 +220,6 @@ export default {
                         this.dataFetched = false
                         this.err = true
                         this.loading = false
-                        this.after_fetch_error = false
                         this.errMsg = ("Error Occured - error" + result.data.statusCode)
                     } else if (result.message == "Network Error") {
                         this.err = true
@@ -151,13 +228,13 @@ export default {
                         this.err = true
                         this.errMsg = 'Error 102 - Cannot Process request'
                         this.loading = false
-                        this.after_fetch_error = false
                     } else {
                         this.dataFetched = true
                         this.data = result.data.body.edges[0].node
                         // let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
                         // console.log(postdata)
                         this.pictures = result.data.body.edges[0].node.edge_sidecar_to_children.edges
+                        console.log(this.pictures)
                         this.err = false
                         this.Error = false
                         this.private = result.data.body.edges[0].node.is_private
@@ -215,10 +292,10 @@ export default {
 
 <style>
 #posts-word {
-    margin: 16px 0 0 10px;
+    margin: 15px 0 0 15px;
     text-align: left;
-    color: beige;
-    font-size: larger;
+    color: white;
+    font-size: x-large;
     display: inline-block;
     float: left;
 }
@@ -262,28 +339,34 @@ export default {
 
 .fa-heart {
     float: left;
-    font-size: 24px;
+    font-size: 25px;
     color: #cf2525;
     padding: 10px 10px 10px 0;
 }
+.fa-heart:active {
+    transform: scale(1.1);
+}
 
 .comment {
-    font-size: 24px;
+    font-size: 25px;
     color: white;
     float: left;
     transform: rotateY(180deg);
-    padding: 2px 2px 10px 10px;
+    padding: 2px 3px 7px 10px;
 }
 
 .fa-heart-o {
     color: rgb(255, 255, 255);
 }
+/* .fa-heart-o:active {
+    transform: scale(1.1);
+} */
 
 .fa-paper-plane {
     float: left;
     font-size: 23px;
     color: white;
-    padding: 11px 2px 10px 3px
+    padding: 11px 2px 10px 5px;
 }
 
 .user-post-data {
@@ -309,17 +392,21 @@ export default {
     padding: 0px 10px 1px 13px;
     text-align: initial;
 }
+.carousel-indicators{
+    margin-bottom: -43px;
+
+}
 
 .carousel-indicators [data-bs-target] {
     box-sizing: content-box;
     flex: 0 1 auto;
     width: 5px;
     height: 5px;
-    padding: 2px;
-    margin: 6px;
+    padding: 0px;
+    margin: 0 4px 8px 4px;
     text-indent: -999px;
     cursor: pointer;
-    background-color: #0d6efd;
+    background-color: #ffffff;
     background-clip: padding-box;
     border: 0;
     border-top: 10px solid transparent;
@@ -337,6 +424,6 @@ export default {
     margin-right: -100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    transition: transform .6s ease-in-out;
+    transition: .6s ease-in-out;
 }
 </style>

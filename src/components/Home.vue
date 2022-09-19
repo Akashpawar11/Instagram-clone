@@ -1,23 +1,22 @@
 <template>
+    <!-- main div -->
     <div>
-        <div class="container-fliud home-screen">
+        <!-- main container-fluid -->
+        <div class="container-fluid home-screen p-0 m-0">
             <!-- Search Bar -->
             <div class="row">
                 <div class="input-group dark search-bar">
-                    <!-- <router-link to="/"><i style="float:left; font-size:24px;" class="arrow-icon fa fa-arrow-left"></i></router-link> -->
-                    <router-link to="/" @click="dataFetched = false" v-if="dataFetched"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
-                    <!-- <router-link to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link> -->
-                    <!-- <input type="text" spellcheck="false" style="border-radius: 7px;" v-model="username" class="form-control search-input dark" placeholder="Search"> -->
-                    <input type="text" @keypress="Keysearch" spellcheck="false" style="border-radius: 7px;" class="form-control search-input dark" placeholder="Search">
-                    <button class="btn" @click="search" type="button">
-                        <span style="color:white;padding: 10px 0 10px 10px;" class="fa fa-search" aria-hidden="true"></span>
+                    <router-link v-if="dataFetched" to="/" @click="dataFetched = false"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
+                    <input type="text" @keypress="Keysearch" spellcheck="false" style="border-radius: 7px;padding: 3px 14px 5px 15px; margin: 10px 0 0 10px;" class="form-control search-input dark" placeholder="Search">
+                    <button class="btn" @click="search" type="button" style="padding: 9px 4px 5px 5px;">
+                        <span style="color:white; padding: 10px 10px 10px 10px;" class="fa fa-search" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
 
-            <!-- loader starts -->
-            <div>
-                <div class="lds-roller" v-if="loading">
+            <!-- loader -->
+            <div v-if="loading" style="margin: 7rem auto;">
+                <div class="lds-roller">
                     <div></div>
                     <div></div>
                     <div></div>
@@ -29,11 +28,8 @@
                 </div>
             </div>
 
-            <!-- <Searched Results if api fetched successfully/> -->
-
             <!-- After loader stops -->
             <div v-if="!loading" class="container-fluid home-screen p-0 m-0">
-                <!-- <div class="container-fluid p-0 m-0"> -->
                 <div v-if="dataFetched" class="row p-0 m-0">
                     <nav class="navbar navbar-expand-lg navbar-dark">
                         <ul class="navbar-nav navbarflex">
@@ -55,13 +51,11 @@
                         </ul>
                     </nav>
                 </div>
-           
+                <!-- error block -->
                 <div v-if="realAPI">
-
                     <h4 class="error" v-if="err">
                         {{this.errMsg}}
                     </h4>
-    
                     <h4 class="error" v-if="Error">
                         {{this.errorMessage}}
                     </h4>
@@ -104,14 +98,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- v-data fetced ends here -->
-
-                <!-- </div> -->
+            <!-- v-datafetced ends here -->
             </div>
-            <!-- v-if !loading ends here -->
-
+            <!-- v-if !loading - end -->
         </div>
+        <!-- main container-fluid - end -->
     </div>
+    <!-- main div - end -->
 </template>
 
 <script>
@@ -262,7 +255,7 @@ h4.error {
 
 .search-bar {
     height: 50px;
-    padding: 7px auto
+    padding: 0;
 }
 
 .search-input {
@@ -271,7 +264,9 @@ h4.error {
     color: white;
     border: 2px solid white;
     font-family: Calibri;
-    border-radius: 6px;
+    /* border-radius: 6px; */
+    margin: 11px 0px 0px 0px;
+    border-radius: 7px;
 }
 
 .search-input:focus {
@@ -323,7 +318,6 @@ h4.error {
     height: 40px;
     margin: 15px 0 0 15px;
     color: white;
-    padding-right: 15px;
 }
 
 li {
@@ -335,7 +329,7 @@ li {
 .lds-roller {
     display: inline-block;
     position: relative;
-    width: 90px;
+    width: 80px;
     height: 90px;
     margin-left: auto;
     margin-right: auto;
