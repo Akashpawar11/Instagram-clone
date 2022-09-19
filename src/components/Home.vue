@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="input-group dark search-bar">
                     <!-- <router-link to="/"><i style="float:left; font-size:24px;" class="arrow-icon fa fa-arrow-left"></i></router-link> -->
-                    <router-link to="/" @click="dataFetched = false" v-if="dataFetched" ><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
+                    <router-link to="/" @click="dataFetched = false" v-if="dataFetched"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link>
                     <!-- <router-link to="/"><i class="arrow-icon fa fa-arrow-left" style="font-size:24px"></i></router-link> -->
                     <!-- <input type="text" spellcheck="false" style="border-radius: 7px;" v-model="username" class="form-control search-input dark" placeholder="Search"> -->
                     <input type="text" @keypress="Keysearch" spellcheck="false" style="border-radius: 7px;" class="form-control search-input dark" placeholder="Search">
@@ -34,74 +34,77 @@
             <!-- After loader stops -->
             <div v-if="!loading" class="container-fluid home-screen p-0 m-0">
                 <!-- <div class="container-fluid p-0 m-0"> -->
-                    <div v-if="dataFetched" class="row p-0 m-0">
-                        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                            <ul class="navbar-nav navbarflex">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Top</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="">Accounts</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Audio</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Tags</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Places</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <!--                     
+                <div v-if="dataFetched" class="row p-0 m-0">
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <ul class="navbar-nav navbarflex">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Top</a>
+                            </li>
+                            <li style="border-bottom:2px solid white" class="nav-item">
+                                <a class="nav-link active" href="">Accounts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Audio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Tags</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Places</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+           
+                <div v-if="realAPI">
+
                     <h4 class="error" v-if="err">
                         {{this.errMsg}}
                     </h4>
-
+    
                     <h4 class="error" v-if="Error">
                         {{this.errorMessage}}
-                    </h4> -->
+                    </h4>
+                </div>
 
-                    <!-- Execute This block if Data is Fethced succesfully -->
+                <!-- Execute This block if Data is Fethced succesfully -->
 
-                    <div v-if="dataFetched" class="searchResults container-fluid p-0 m-0">
-                        <div v-for="user in searchData" :key="user.id" class="user-thumbnail row">
-                            <div class="user row d-flex">
+                <div v-if="dataFetched" class="searchResults container-fluid p-0 m-0">
+                    <div v-for="user in searchData" :key="user.id" class="user-thumbnail row">
+                        <div class="user row d-flex">
 
-                                <!-- If user account is private -->
-                                <router-link v-if="user.user.is_private == true" class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/' + user.user.is_private">
-                                    <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
+                            <!-- If user account is private -->
+                            <router-link v-if="user.user.is_private == true" class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/' + user.user.is_private">
+                                <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
+                                </div>
+                                <div class="user-details d-flex flex-column">
+                                    <div class="d-flex">
+                                        <h5 style="color:white; text-align: left; font-size: 1rem;">{{user.user.username}}</h5><img id="verified" v-if="user.user.is_verified == true" src="../assets/verified.png" alt="">
                                     </div>
-                                    <div class="user-details d-flex flex-column">
-                                        <div>
-                                            <h5 style="color:white; text-align: left; font-size: 1rem;">{{user.user.username}}</h5>
-                                        </div>
-                                        <div>
-                                            <h6 style="color:#646464;text-align: left; font-size: 1rem;">{{user.user.full_name}}</h6>
-                                        </div>
+                                    <div>
+                                        <h6 style="color:#646464;text-align: left; font-size: 1rem;">{{user.user.full_name}}</h6>
                                     </div>
-                                </router-link>
+                                </div>
+                            </router-link>
 
-                                <!-- If user account is public -->
-                                <router-link v-else class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/public-acc'">
-                                    <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
+                            <!-- If user account is public -->
+                            <router-link v-else class="d-flex flex-row" :to=" `/public-posts/`+ user.user.pk + '/' + user.user.is_private">
+                                <div class="imageDiv"><img class="imageSmall" src="../assets/users-avatar.jpg" alt="profile picture">
+                                </div>
+                                <div class="user-details d-flex flex-column">
+                                    <div>
+                                        <h5 style="color:white; text-align: left; font-size: 1rem;">{{user.user.username}}</h5>
                                     </div>
-                                    <div class="user-details d-flex flex-column">
-                                        <div>
-                                            <h5 style="color:white; text-align: left; font-size: 1rem;">{{user.user.username}}</h5>
-                                        </div>
-                                        <div>
-                                            <h6 style="color:#646464;text-align: left; font-size: 1rem;">{{user.user.full_name}}</h6>
-                                        </div>
+                                    <div>
+                                        <h6 style="color:#646464;text-align: left; font-size: 1rem;">{{user.user.full_name}}</h6>
                                     </div>
-                                </router-link>
+                                </div>
+                            </router-link>
 
-                            </div>
                         </div>
                     </div>
-                    <!-- v-data fetced ends here -->
+                </div>
+                <!-- v-data fetced ends here -->
 
                 <!-- </div> -->
             </div>
@@ -120,14 +123,15 @@ export default {
     data() {
         return {
             searchData: [],
-            // username: "",
+            username: "",
             dataFetched: '',
-            // Error: '',
-            // errorMessage: '',
-            // loading: false,
-            // err: '',
-            // errMsg: '',
-            loading: false
+            Error: '',
+            errorMessage: '',
+            loading: false,
+            err: '',
+            errMsg: '',
+            loading: false,
+            realAPI: false
         };
     },
     methods: {
@@ -135,74 +139,84 @@ export default {
             if (e.key == 'Enter') {
                 this.search()
             }
-},
-        
+        },
+
         async search() {
-        
-            // try {
-            //     this.loading = true
-            //     let username1 = this.username
-            //     var result = await axios.get(
-            //         'https://instagram47.p.rapidapi.com/search',
-            //         {
-            //             headers: {
-            //                 'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
-            //                 'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
-            //             },
-            //             params: { search: username1 },
-            //         });
-            //     console.log(result)
-            //     if (result.data.statusCode == 203 || result.data.statusCode == 202) {
-            //         this.loading = false
-            //         this.dataFetched = false
-            //         this.err = true
-            //         this.errMsg = ("Error Occured - error" + result.data.statusCode)
-            //     } else if (result.message == "Network Error") {
-            //         this.loading = false
-            //         this.networkError = true
-            //     } else if (result.data.statusCode == 102) {
-            //         this.err = true
-            //         this.errMsg = 'Error 102 - Cannot Process request'
-            //         this.loading = false
-            //     } else {
-            //         this.dataFetched = true
-            //         this.searchData = result.data.body.users
-            //         this.err = false
-            //         this.Error = false
-            //         // let pvt = await axios.post('http://localhost:3000/pvt', this.searchData)
-            //         // console.log(pvt)
-            //         this.loading = false
-            //     }
-            //     this.loading = false
+            if (this.realAPI == true) {
 
-            // } catch (error) {
-            //     //Catch block to show error/s
-            //     console.log(error)
-            //     if (error.message == "Network Error") {
-            //         this.loading = false
-            //         this.Error = true
-            //         this.errorMessage = "Network Error"
-            //         console.log(this.errorMessage)
-            //     } else if (error.message == "Request failed with status code 429") {
-            //         this.loading = false
-            //         this.Error = true
-            //         this.errorMessage = "Request failed with status code 429"
-            //         console.log(this.errorMessage)
-            //     } else {
-            //         this.loading = false
-            //         this.Error = true
-            //         this.errorMessage = error.message
-            //         console.log(this.errorMessage)
-            //     }
-            // }
+                try {
+                    this.loading = true
+                    let username1 = this.username
+                    var result = await axios.get(
+                        'https://instagram47.p.rapidapi.com/search',
+                        {
+                            headers: {
+                                'X-RapidAPI-Key': '4019c68f6fmsh2280c1edd5d1458p1a4489jsnbb84be4d501a',
+                                'X-RapidAPI-Host': 'instagram47.p.rapidapi.com'
+                            },
+                            params: { search: username1 },
+                        });
+                    console.log(result)
+                    if (result.data.statusCode == 203 || result.data.statusCode == 202) {
+                        this.loading = false
+                        this.dataFetched = false
+                        this.err = true
+                        this.errMsg = ("Error Occured - error" + result.data.statusCode)
+                    } else if (result.message == "Network Error") {
+                        this.loading = false
+                        this.networkError = true
+                    } else if (result.data.statusCode == 102) {
+                        this.err = true
+                        this.errMsg = 'Error 102 - Cannot Process request'
+                        this.loading = false
+                    } else if (result.data.Warning == "endpoint under maintenance") {
+                        this.err = true
+                        this.errMsg = 'API endpoint under maintenance'
+                    }
 
-            this.loading = true
-            let dbData = await axios.get('http://localhost:3000/data');
-            console.log(dbData.data[0].user.username)
-            this.searchData = dbData.data
-            this.loading = false
-            this.dataFetched = true
-            console.log(this.searchData)
+                    else {
+                        this.searchData = result.data.body.users
+                        this.dataFetched = true
+                        this.err = false
+                        this.Error = false
+                        // let pvt = await axios.post('http://localhost:3000/pvt', this.searchData)
+                        // console.log(pvt)
+                        this.loading = false
+                    }
+                    this.loading = false
+
+                } catch (error) {
+                    //Catch block to show error/s
+                    console.log(error)
+                    if (error.message == "Network Error") {
+                        this.loading = false
+                        this.Error = true
+                        this.errorMessage = "Network Error"
+                        console.log(this.errorMessage)
+                    } else if (error.message == "Request failed with status code 429") {
+                        this.loading = false
+                        this.Error = true
+                        this.errorMessage = "Request failed with status code 429"
+                        console.log(this.errorMessage)
+                    } else {
+                        this.loading = false
+                        this.Error = true
+                        this.errorMessage = error.message
+                        console.log(this.errorMessage)
+                    }
+                }
+            }
+            else {
+
+                this.loading = true
+                let dbData = await axios.get('http://localhost:3000/data');
+                console.log(dbData.data[0].user.username)
+                this.searchData = dbData.data
+                this.loading = false
+                this.dataFetched = true
+                console.log(this.searchData)
+            }
+
 
         }
     }
@@ -216,9 +230,14 @@ body {
     margin: 0;
     background-color: black;
 }
-a:hover{
+
+a:hover {
     text-decoration: none;
     color: none;
+}
+.navbar{
+    background-color: black;
+    padding: 5px 0 5px 0;
 }
 
 h4.error {
@@ -267,15 +286,12 @@ h4.error {
     text-decoration: none;
     border: none;
 }
+
 .btn:focus {
     text-decoration: none;
     border: none;
 }
 
-.navbar {
-    border-bottom: 1px solid grey;
-    padding: 5px 0 5px 0;
-}
 
 .row {
     padding: 0;
@@ -295,6 +311,12 @@ h4.error {
 
 .user-details {
     padding: 12px 0 3px 15px;
+}
+#verified{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 1.5px 1px 1px 5px;
 }
 
 .arrow-icon {

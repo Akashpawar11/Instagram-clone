@@ -16,7 +16,7 @@
             </div>
 
             <!-- error block -->
-            <div>
+            <div v-if="realAPI">
                 <h4 v-if="err">
                     {{this.errMsg}}
                 </h4>
@@ -33,20 +33,26 @@
                         <div class="user-post-data">
                             <img class="xsImage" src="../assets/users-avatar.jpg" alt="">
                             <h6 style="color: antiquewhite;text-align: left; float: left;display: contents;">{{this.data.owner.username}}</h6>
+                            <img id="dots" src="../assets/menu.png" alt="">
 
                         </div>
 
-                        <div id="carouselExampleIndicators" class="carousel slide p-0" data-bs-ride="true">
+                        <div id="carouselExampleIndicators" class="carousel slide p-0" data-bs-ride="false">
                             <div class="carousel-indicators" v-for="picture in pictures" :key="picture.id">
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-current="true" aria-label="Slide 1"></button>
+                                <button v-if="pictures.length > 0" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button v-if="pictures.length > 1"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+                                <button v-if="pictures.length > 2"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-current="true" aria-label="Slide 3"></button>
+                                <button v-if="pictures.length > 3"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-current="true" aria-label="Slide 4"></button>
+                                <button v-if="pictures.length > 4"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-current="true" aria-label="Slide 5"></button>
+                                <button v-if="pictures.length > 5"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+                                <button v-if="pictures.length > 6"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-current="true" aria-label="Slide 7"></button>
+                                <button v-if="pictures.length > 7"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-current="true" aria-label="Slide 8"></button>
+                                <button v-if="pictures.length > 8"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-current="true" aria-label="Slide 9"></button>
+                                <button v-if="pictures.length > 9"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-current="true" aria-label="Slide 10"></button>
                             </div>
                             <div class="carousel-item active" v-for="picture in pictures" :key="picture.index">
                                 <div class="carousel-inner ">
-                                    <img class="post-image d-block w-100" src="../assets/fallback1.jpg" alt="">
+                                    <img @dblclick="toggleLike" class="post-image d-block w-100" src="../assets/fallback1.jpg" alt="">
                                     <h6>{{picture.node.id}}</h6>
                                 </div>
                             </div>
@@ -66,6 +72,7 @@
                                 <i @click="toggleLike" id="heart" class="fa fa-heart"></i>
                                 <i class="bi bi-chat comment"></i>
                                 <i class="fa fa-regular fa-paper-plane"></i>
+                                <img id="savepost" src="../assets/save-instagram.png" alt="">
                             </div>
                             <h6 class="likes">{{this.data.edge_media_preview_like.count}} likes</h6><br>
                             <p class="caption">
@@ -99,20 +106,20 @@ export default {
             loading: true,
             after_fetch_error: '',
             imgs: [],
-            imglen: '',
+            len:'',
             liked: true,
             pvt: false,
             realAPI: false
         }
     },
     async mounted() {
-        if (realAPI == true) {
+        if (this.realAPI == true) {
 
-            let Status = this.$route.params.status
-            console.log(Status)
+            let status1 = this.$route.params.status
+            console.log(status1)
 
 
-            if (status == 'true') {
+            if (status1 == 'true') {
                 this.pvt = true
                 this.loading = false
             } else {
@@ -150,8 +157,7 @@ export default {
                         this.data = result.data.body.edges[0].node
                         // let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
                         // console.log(postdata)
-                        this.imgs = result.data.body.edges[0].node.edge_sidecar_to_children.edges
-                        this.imglen = (result.data.body.edges[0].node.edge_sidecar_to_children.edges).length
+                        this.pictures = result.data.body.edges[0].node.edge_sidecar_to_children.edges
                         this.err = false
                         this.Error = false
                         this.private = result.data.body.edges[0].node.is_private
@@ -179,6 +185,8 @@ export default {
                 console.log(datamulti)
                 this.data = datamulti.data[0]
                 this.pictures = datamulti.data[0].edge_sidecar_to_children.edges
+                this.len = datamulti.data[0].edge_sidecar_to_children.edges.length
+                console.log(this.len)
                 console.log('data', this.data)
                 console.log('pictures', this.pictures)
                 this.loading = false
@@ -228,6 +236,17 @@ export default {
     width: auto;
     border-radius: 50%;
     margin: 0 13px 2px 0;
+}
+#savepost{
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+#dots{
+    height: 27px;
+    width: 27px;
+    float: right;
+    margin: 3px 0px 0px 0px;
 }
 
 .BIG {
@@ -297,5 +316,34 @@ export default {
     font-size: 13px;
     padding: 0px 10px 1px 13px;
     text-align: initial;
+}
+
+.carousel-indicators [data-bs-target] {
+    box-sizing: content-box;
+    flex: 0 1 auto;
+    width: 5px;
+    height: 5px;
+    padding: 2px;
+    margin: 6px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #0d6efd;
+    background-clip: padding-box;
+    border: 0;
+    border-top: 10px solid transparent;
+    border-radius: 50%;
+    border-bottom: 10px solid transparent;
+    opacity: .5;
+    transition: opacity .6s ease;
+}
+.carousel-item {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    margin-right: -100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: transform .6s ease-in-out;
 }
 </style>

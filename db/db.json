@@ -12,7 +12,7 @@
         "latest_reel_media": 0,
         "live_broadcast_id": null,
         "should_show_category": false,
-        "is_verified": false,
+        "is_verified": true,
         "account_badges": {},
         "has_highlight_reels": false,
         "username": "akash.k.pawar",
