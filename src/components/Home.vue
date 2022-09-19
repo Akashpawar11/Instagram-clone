@@ -135,8 +135,8 @@ export default {
         },
 
         async search() {
+            // for real API
             if (this.realAPI == true) {
-
                 try {
                     this.loading = true
                     let username1 = this.username
@@ -157,7 +157,8 @@ export default {
                         this.errMsg = ("Error Occured - error" + result.data.statusCode)
                     } else if (result.message == "Network Error") {
                         this.loading = false
-                        this.networkError = true
+                        this.err = true
+                        this.errMsg = "Network Error"
                     } else if (result.data.statusCode == 102) {
                         this.err = true
                         this.errMsg = 'Error 102 - Cannot Process request'
@@ -165,13 +166,13 @@ export default {
                     } else if (result.data.Warning == "endpoint under maintenance") {
                         this.err = true
                         this.errMsg = 'API endpoint under maintenance'
+                        this.loading = false
                     }
 
                     else {
                         this.searchData = result.data.body.users
                         this.dataFetched = true
                         this.err = false
-                        this.Error = false
                         // let pvt = await axios.post('http://localhost:3000/pvt', this.searchData)
                         // console.log(pvt)
                         this.loading = false
@@ -183,24 +184,24 @@ export default {
                     console.log(error)
                     if (error.message == "Network Error") {
                         this.loading = false
-                        this.Error = true
-                        this.errorMessage = "Network Error"
-                        console.log(this.errorMessage)
+                        this.err = true
+                        this.errMsg = "Network Error"
+                        console.log(this.errMsg)
                     } else if (error.message == "Request failed with status code 429") {
                         this.loading = false
-                        this.Error = true
-                        this.errorMessage = "Request failed with status code 429"
-                        console.log(this.errorMessage)
+                        this.err = true
+                        this.errMsg = "Request failed with status code 429"
+                        console.log(this.errMsg)
                     } else {
                         this.loading = false
-                        this.Error = true
-                        this.errorMessage = error.message
-                        console.log(this.errorMessage)
+                        this.rrr = true
+                        this.errMsg = error.message
+                        console.log(this.errMsg)
                     }
                 }
             }
+            // For stored json API 
             else {
-
                 this.loading = true
                 let dbData = await axios.get('http://localhost:3000/data');
                 console.log(dbData.data[0].user.username)
