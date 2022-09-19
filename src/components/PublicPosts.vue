@@ -37,23 +37,23 @@
 
                         </div>
 
-                        <div id="carouselExampleIndicators" class="carousel slide p-0" data-bs-ride="false">
+                        <div id="carouselExampleIndicators" class="carousel p-0" data-bs-ride="false">
                             <div class="carousel-indicators" v-for="picture in pictures" :key="picture.id">
                                 <button v-if="pictures.length > 0" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button v-if="pictures.length > 1"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
-                                <button v-if="pictures.length > 2"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-current="true" aria-label="Slide 3"></button>
-                                <button v-if="pictures.length > 3"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-current="true" aria-label="Slide 4"></button>
-                                <button v-if="pictures.length > 4"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-current="true" aria-label="Slide 5"></button>
-                                <button v-if="pictures.length > 5"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
-                                <button v-if="pictures.length > 6"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-current="true" aria-label="Slide 7"></button>
-                                <button v-if="pictures.length > 7"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-current="true" aria-label="Slide 8"></button>
-                                <button v-if="pictures.length > 8"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-current="true" aria-label="Slide 9"></button>
-                                <button v-if="pictures.length > 9"  type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-current="true" aria-label="Slide 10"></button>
+                                <button v-if="pictures.length > 1" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2"></button>
+                                <button v-if="pictures.length > 2" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-current="true" aria-label="Slide 3"></button>
+                                <button v-if="pictures.length > 3" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-current="true" aria-label="Slide 4"></button>
+                                <button v-if="pictures.length > 4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-current="true" aria-label="Slide 5"></button>
+                                <button v-if="pictures.length > 5" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-current="true" aria-label="Slide 6"></button>
+                                <button v-if="pictures.length > 6" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-current="true" aria-label="Slide 7"></button>
+                                <button v-if="pictures.length > 7" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-current="true" aria-label="Slide 8"></button>
+                                <button v-if="pictures.length > 8" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-current="true" aria-label="Slide 9"></button>
+                                <button v-if="pictures.length > 9" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-current="true" aria-label="Slide 10"></button>
                             </div>
                             <div class="carousel-item active" v-for="picture in pictures" :key="picture.index">
                                 <div class="carousel-inner ">
-                                    <img @dblclick="toggleLike" class="post-image d-block w-100" src="../assets/fallback1.jpg" alt="">
-                                    <h6>{{picture.node.id}}</h6>
+                                    <img class="post-image" src="../assets/fallback1.jpg" alt="">
+                                    <h6 style="margin: 5px 0 0 0;">{{picture.node.id}}</h6>
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -106,7 +106,7 @@ export default {
             loading: true,
             after_fetch_error: '',
             imgs: [],
-            len:'',
+            len: '',
             liked: true,
             pvt: false,
             realAPI: false
@@ -237,34 +237,26 @@ export default {
     border-radius: 50%;
     margin: 0 13px 2px 0;
 }
-#savepost{
+
+#savepost {
     width: 20px;
     height: 20px;
     color: white;
 }
-#dots{
+
+#dots {
     height: 27px;
     width: 27px;
     float: right;
     margin: 3px 0px 0px 0px;
 }
 
-.BIG {
-    padding: 0;
-}
-
-.imgB {
-    width: inherit;
-    height: inherit;
-    position: relative;
-}
-
 .post-image {
     height: inherit;
     width: inherit;
-    position: relative;
+    /* position: relative; */
     transition: 0s;
-    display: block;
+    /* display: block; */
 }
 
 
@@ -336,6 +328,7 @@ export default {
     opacity: .5;
     transition: opacity .6s ease;
 }
+
 .carousel-item {
     position: relative;
     display: none;
