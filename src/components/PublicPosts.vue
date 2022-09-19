@@ -41,7 +41,7 @@
                         <!-- thumbnail image ,username & dots above post -->
                         <div class="user-post-data">
                             <img class="xsImage" src="../assets/users-avatar.jpg" alt="">
-                            <h6 style="color: antiquewhite;text-align: left; float: left;display: contents;">{{this.data.owner.username}}</h6>
+                            <h6 style=" float: left;display: contents; color: white;text-align: left;font-weight: 600;">{{this.data.owner.username}}</h6>
                             <img id="dots" src="../assets/menu.png" alt="">
                         </div>
 
