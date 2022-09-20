@@ -41,7 +41,7 @@
                         <!-- thumbnail image ,username & dots above post -->
                         <div class="user-post-data">
                             <img class="xsImage" src="../assets/users-avatar.jpg" alt="">
-                            <h6 style=" float: left;display: contents; color: white;text-align: left;font-weight: 600;">{{this.data.owner.username}}</h6>
+                            <h6 style="float: left;display: contents; color: white;text-align: left;font-weight: 600;">{{this.data.owner.username}}</h6>
                             <img id="dots" src="../assets/menu.png" alt="">
                         </div>
 
@@ -148,7 +148,8 @@
                                 <i @click="toggleLike" id="heart" class="fa fa-heart"></i>
                                 <i class="bi bi-chat comment"></i>
                                 <i class="fa fa-regular fa-paper-plane"></i>
-                                <img style="color:aliceblue" id="savepost" src="../assets/save-instagram.png" alt="">
+                                <i id="boot-icon" class="bi bi-bookmark"></i>
+                                <!-- <img style="color:aliceblue" id="savepost" src="../assets/save-instagram.png" alt=""> -->
                             </div>
                             <h6 class="likes">{{this.data.edge_media_preview_like.count}} likes</h6><br>
                             <p class="caption">
@@ -362,6 +363,12 @@ export default {
     font-size: 23px;
     color: white;
     padding: 11px 2px 10px 5px;
+}
+.bi-bookmark{
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    padding: 4px 10px 10px 10px;
+    float: right
 }
 
 .user-post-data {
