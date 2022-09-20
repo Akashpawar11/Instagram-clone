@@ -146,7 +146,7 @@
                         <div class="d-flex row p-0">
                             <div id="icons" style="padding: 0px 0 0 10px;">
                                 <i @click="toggleLike" id="heart" class="fa fa-heart"></i>
-                                <i class="bi bi-chat comment"></i>
+                                <i class="bi bi-chat comment-icon"></i>
                                 <i class="fa fa-regular fa-paper-plane"></i>
                                 <i id="boot-icon" class="bi bi-bookmark"></i>
                                 <!-- <img style="color:aliceblue" id="savepost" src="../assets/save-instagram.png" alt=""> -->
@@ -155,6 +155,10 @@
                             <p class="caption">
                                 <b style="font-size: 15px;">{{this.data.owner.username}}</b> {{this.data.edge_media_to_caption.edges[0].node.text}}
                             </p>
+                        </div>
+
+                        <div v-for="node in comments" :key="node.index" class="d-flex flex-column p-0">
+                            <div class="comment">{{node.node.owner.username}} - {{node.node.text}}</div>
                         </div>
                         <!-- block for icons,likes,caption - end -->
                     </div>
@@ -180,6 +184,7 @@ export default {
             errMsg: '',
             data: [],
             pictures: [],
+            comments: [],
             networkError: '',
             Error: '',
             private: '',
@@ -235,6 +240,7 @@ export default {
                         // let postdata = await axios.post('http://localhost:3000/postMulti', this.data)
                         // console.log(postdata)
                         this.pictures = result.data.body.edges[0].node.edge_sidecar_to_children.edges
+                        this.comments = result.data.body.edges[0].node.edge_media_to_comment.edges
                         console.log(this.pictures)
                         this.err = false
                         this.Error = false
@@ -263,6 +269,7 @@ export default {
                 console.log(datamulti)
                 this.data = datamulti.data[0]
                 this.pictures = datamulti.data[0].edge_sidecar_to_children.edges
+                this.comments = datamulti.data[0].edge_media_to_comment.edges
                 this.len = datamulti.data[0].edge_sidecar_to_children.edges.length
                 console.log(this.len)
                 console.log('data', this.data)
@@ -346,7 +353,7 @@ export default {
     transform: scale(1.1);
 }
 
-.comment {
+.comment-icon {
     font-size: 25px;
     color: white;
     float: left;
@@ -370,7 +377,12 @@ export default {
     padding: 4px 10px 10px 10px;
     float: right
 }
-
+.bi-bookmark:active{
+    background-color: #ffffff;
+}
+.comment{
+    padding: 0;
+}
 .user-post-data {
     padding: 10px 10px;
     text-align: left;
